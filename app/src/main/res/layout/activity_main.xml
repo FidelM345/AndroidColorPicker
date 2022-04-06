@@ -14,11 +14,11 @@
         <com.github.antonpopoff.colorwheel.ColorWheel
             android:id="@+id/colorWheel"
             android:layout_width="0dp"
-            android:layout_height="350dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_height="0dp"
+            android:layout_margin="24dp"
             android:orientation="horizontal"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toTopOf="@+id/green_bg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +31,9 @@
             android:background="@color/control_segment_background"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/colorWheel">
+            app:layout_constraintEnd_toStartOf="@+id/green_bg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/teal_btn"
@@ -52,8 +52,8 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/green_bg"
-            app:layout_constraintTop_toBottomOf="@+id/colorWheel">
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/green_bg">
 
             <Button
                 android:id="@+id/orange_btn"
@@ -71,9 +71,9 @@
             android:background="@color/control_segment_background"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline6"
-            app:layout_constraintStart_toEndOf="@+id/teal_bg"
-            app:layout_constraintTop_toBottomOf="@+id/colorWheel">
+            app:layout_constraintEnd_toStartOf="@+id/orange_bg"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/teal_bg">
 
             <Button
                 android:id="@+id/green_btn"
@@ -84,27 +84,15 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="left" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="left" />
-
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
+            android:id="@+id/left_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="126dp" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline6"
+            android:id="@+id/right_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"

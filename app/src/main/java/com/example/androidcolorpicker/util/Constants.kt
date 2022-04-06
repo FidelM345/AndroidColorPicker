@@ -8,7 +8,7 @@ object Constants{
     const val  ORANGE_COLOR_CODE = "#ff6100"
     const val SELECTED_CONTROLLER_BG_COLOR = "#3b3b3b"
 
-    fun convertColorCodeToInt(input:String):Int{
+    fun convertHexCodeToColorCode(input:String):Int{
        return Color.parseColor(input)
     }
 }

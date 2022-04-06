@@ -8,15 +8,13 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import com.example.androidcolorpicker.R
-import com.example.androidcolorpicker.setCustomBackGroundColor
+import com.example.androidcolorpicker.util.setCustomBackGroundColor
 import com.example.androidcolorpicker.util.Constants
 import com.github.antonpopoff.colorwheel.ColorWheel
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private val viewModel: MainActivityViewModel by viewModels()
-    private lateinit var colorWheel:ColorWheel
-
-
+    private lateinit var colorWheel: ColorWheel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +32,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         val greenBg = findViewById<LinearLayoutCompat>(R.id.green_bg)
         val orangeBg = findViewById<LinearLayoutCompat>(R.id.orange_bg)
 
-        tealBtn.setCustomBackGroundColor(Constants.TEAL_COLOR_CODE)
-        greenBtn.setCustomBackGroundColor(Constants.GREEN_COLOR_CODE)
-        orangeBtn.setCustomBackGroundColor(Constants.ORANGE_COLOR_CODE)
+        tealBtn.setCustomBackGroundColor(colorCode = viewModel.segmentedControlColorUIState.tealControl)
+        greenBtn.setCustomBackGroundColor(colorCode = viewModel.segmentedControlColorUIState.greenControl)
+        orangeBtn.setCustomBackGroundColor(colorCode = viewModel.segmentedControlColorUIState.orangeControl)
 
         changeSegmentControlColorUsingColorWheel(tealBtn, greenBtn, orangeBtn)
         controlBackGroundColorForSelectedSegmentControl(greenBg, orangeBg, tealBg)
-        listenToColorChnagesFromTheColorWheel()
+        listenToColorChangesFromTheColorWheel()
     }
 
-    private fun listenToColorChnagesFromTheColorWheel() {
+    private fun listenToColorChangesFromTheColorWheel() {
         colorWheel.colorChangeListener = { rgb: Int ->
-
             viewModel.getColorValueFromWheel(rgb)
         }
     }
@@ -62,7 +59,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 greenBg.setCustomBackGroundColor(Constants.SELECTED_CONTROLLER_BG_COLOR)
             else
                 greenBg.setCustomBackGroundColor(colorCode = color)
-
 
             if (it.orange)
                 orangeBg.setCustomBackGroundColor(Constants.SELECTED_CONTROLLER_BG_COLOR)
@@ -81,26 +77,27 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         greenBtn: Button,
         orangeBtn: Button
     ) {
-        viewModel.colorValueFromWheel.observe(this) {
-            it?.let {
-                viewModel.segmentedControlColorUIState!!.isDefaultColorValues = false
-                if (it.teal) {
-                    tealBtn.setCustomBackGroundColor(colorCode = it.colorCode)
-                    viewModel.segmentedControlColorUIState.tealControl = it.colorCode!!
-                }
 
-                if (it.green) {
-                    greenBtn.setCustomBackGroundColor(colorCode = it.colorCode)
-                    viewModel.segmentedControlColorUIState.greenControl = it.colorCode!!
-                }
-                if (it.orange) {
-                    orangeBtn.setCustomBackGroundColor(colorCode = it.colorCode)
-                    viewModel.segmentedControlColorUIState.orangeControl = it.colorCode!!
-                }
+         viewModel.colorValueFromWheel.observe(this) {
+             it?.let {
 
-            }
+                 if (it.teal) {
+                     tealBtn.setCustomBackGroundColor(colorCode = it.colorCode)
+                     viewModel.segmentedControlColorUIState.tealControl = it.colorCode!!
+                 }
 
-        }
+                 if (it.green) {
+                     greenBtn.setCustomBackGroundColor(colorCode = it.colorCode)
+                     viewModel.segmentedControlColorUIState.greenControl = it.colorCode!!
+                 }
+                 if (it.orange) {
+                     orangeBtn.setCustomBackGroundColor(colorCode = it.colorCode)
+                     viewModel.segmentedControlColorUIState.orangeControl = it.colorCode!!
+                 }
+
+             }
+
+         }
     }
 
     override fun onClick(v: View?) {
@@ -108,45 +105,48 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             val viewId = v.id
 
             if (viewId == R.id.teal_btn) {
-                val tealBtnColorCode =  viewModel.segmentedControlColorUIState.tealControl
-                colorWheel.rgb = convertColorCodeToRGB(tealBtnColorCode)
-
                 changeSegmentControlClickState(
                     teal = true
                 )
+                setPointerOnColorWheel(viewModel.segmentedControlColorUIState.tealControl)
+
             }
             if (viewId == R.id.green_btn) {
-                val greenBtnColorCode =  viewModel.segmentedControlColorUIState.greenControl
-                colorWheel.rgb = convertColorCodeToRGB(greenBtnColorCode)
 
                 changeSegmentControlClickState(
                     green = true
                 )
+
+                setPointerOnColorWheel(viewModel.segmentedControlColorUIState.greenControl)
+
             }
             if (viewId == R.id.orange_btn) {
-
-                val orangeBtnColorCode =  viewModel.segmentedControlColorUIState.orangeControl
-                colorWheel.rgb = convertColorCodeToRGB(orangeBtnColorCode)
 
                 changeSegmentControlClickState(
                     orange = true
                 )
+                setPointerOnColorWheel(viewModel.segmentedControlColorUIState.orangeControl)
             }
         }
 
     }
 
-    private fun convertColorCodeToRGB(tealBtnColorCode: Int) = Color.rgb(
-        Color.red(tealBtnColorCode),
-        Color.green(tealBtnColorCode),
-        Color.blue(tealBtnColorCode)
+    private fun setPointerOnColorWheel(colorCode:Int) {
+        colorWheel.rgb = convertColorCodeToRGB(colorCode)
+    }
+
+    private fun convertColorCodeToRGB(colorCode: Int) = Color.rgb(
+        Color.red(colorCode),
+        Color.green(colorCode),
+        Color.blue(colorCode)
     )
+
     private fun changeSegmentControlClickState(
         teal: Boolean = false,
         green: Boolean = false,
         orange: Boolean = false,
 
-    ) {
+        ) {
         viewModel.changeSegmentControllerClickState(
             ThreeWaySegmentControlUIState(
                 teal = teal,

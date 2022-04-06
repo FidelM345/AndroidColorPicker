@@ -7,18 +7,18 @@ import androidx.lifecycle.ViewModel
 import com.example.androidcolorpicker.util.Constants
 
 class MainActivityViewModel : ViewModel() {
-    private val _threeWaySegmentControlUIState: MutableLiveData<ThreeWaySegmentControlUIState> =
+    private val _changeBackgroundColorForSelectedSegmentControl: MutableLiveData<ThreeWaySegmentControlUIState> =
         MutableLiveData()
     val changeBackgroundColorForSelectedSegmentControl: LiveData<ThreeWaySegmentControlUIState>
-        get() = _threeWaySegmentControlUIState
+        get() = _changeBackgroundColorForSelectedSegmentControl
 
     private var selectedSegmentedControlClickState: ThreeWaySegmentControlUIState? =null
     private val _colorValueFromWheel: MutableLiveData<Int> = MutableLiveData()
 
-    val segmentedControlColorUIState: SegmentedControlColorUIStater = SegmentedControlColorUIStater(
-        tealControl = Constants.convertColorCodeToInt(Constants.TEAL_COLOR_CODE),
-        greenControl = Constants.convertColorCodeToInt(Constants.GREEN_COLOR_CODE),
-        orangeControl = Constants.convertColorCodeToInt(Constants.ORANGE_COLOR_CODE)
+    val segmentedControlColorUIState: SegmentedControlColorUIState = SegmentedControlColorUIState(
+        tealControl = Constants.convertHexCodeToColorCode(Constants.TEAL_COLOR_CODE),
+        greenControl = Constants.convertHexCodeToColorCode(Constants.GREEN_COLOR_CODE),
+        orangeControl = Constants.convertHexCodeToColorCode(Constants.ORANGE_COLOR_CODE)
     )
 
     val colorValueFromWheel: LiveData<ThreeWaySegmentControlUIState> =
@@ -29,14 +29,13 @@ class MainActivityViewModel : ViewModel() {
              }
          }
 
-
     fun getColorValueFromWheel(colorCode: Int) {
         _colorValueFromWheel.value = colorCode
     }
 
 
     fun changeSegmentControllerClickState(input: ThreeWaySegmentControlUIState) {
-        _threeWaySegmentControlUIState.value = input
+        _changeBackgroundColorForSelectedSegmentControl.value = input
         selectedSegmentedControlClickState = input
     }
 

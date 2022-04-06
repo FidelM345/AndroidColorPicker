@@ -1,4 +1,4 @@
-package com.example.androidcolorpicker
+package com.example.androidcolorpicker.util
 
 import android.graphics.Color
 import android.view.View
